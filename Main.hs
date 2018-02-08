@@ -263,11 +263,18 @@ chainL l o r = apply <$> l <*> o <*> r >>= rest
 
 -- Testowanie operatorow wyrazania
 
+{-| Dla dowolnego drzewa wyrazen okreslonych drukuje drzewo, a następnie analizowanie wynikowego tekstu
+    powinno skutkować drzewem wyrazen nieokreslonych, ktore jest strukturalnie identyczne 
+    z drzewem wyrazen okreslonych |-}
+    
 propPrintParseIdentity :: UExp -> Bool
 propPrintParseIdentity e =
     case parseOnly uexp (prettyU e) of
         Left e -> False
         Right r -> e == r
+       
+{-| Drukowanie drzewa wyrazen nie powinno nigdy tworzyc tekstu, 
+    w którym co najmniej dwa operatory pojawiaja sie na kolejnych pozycjach znaku |-}
 
 propNoDoubleOperators :: TWyrazenie -> Bool
 propNoDoubleOperators e = not $ or
